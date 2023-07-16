@@ -42,33 +42,22 @@ public class UserService {
         users.add(user);
     }
 
-    public void Update(int id, String name) throws IllegalAccessException {
-        User userToBeUpdated = null;
+    public void Update(int id, String name)
+            throws IllegalAccessException {
         for (User user: users) {
             if(user.getId() == id) {
-                userToBeUpdated = user;
+                user.setName(name);
+                break;
             }
         }
-
-        if(userToBeUpdated == null) {
-            return;
-        }
-
-        userToBeUpdated.setName(name);
     }
 
     public void Delete(int id) {
-        User userToBeDeleted = null;
         for (User user: users) {
             if(user.getId() == id) {
-                userToBeDeleted = user;
+                users.remove(user);
+                break;
             }
         }
-
-        if(userToBeDeleted == null) {
-            return;
-        }
-
-        users.remove(userToBeDeleted);
     }
 }
