@@ -46,7 +46,7 @@ public class UsersController {
     @PostMapping("/users")
     public ResponseEntity<?> create(@RequestBody User user)
             throws Exception {
-        userService.Add(user);
+        userService.add(user);
         URI createdLocation = new URI(String.format("http://localhost:8080/users/%s", user.getId()));
         return ResponseEntity.created(createdLocation).build();
     }
@@ -54,13 +54,13 @@ public class UsersController {
     @PutMapping("/users/{id}")
     public ResponseEntity<?> update(@PathVariable int id, @RequestBody User user)
             throws Exception {
-        userService.Update(id, user.getName());
+        userService.update(id, user.getName(), user.getEmail());
         return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/users/{id}")
     public ResponseEntity<?> delete(@PathVariable int id) {
-        userService.Delete(id);
+        userService.delete(id);
         return ResponseEntity.noContent().build();
     }
 }

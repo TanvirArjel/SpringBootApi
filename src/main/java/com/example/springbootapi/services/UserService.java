@@ -1,62 +1,58 @@
 package com.example.springbootapi.services;
 
 import com.example.springbootapi.models.User;
+import com.example.springbootapi.repositories.UserRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
 
 @Service
 public class UserService {
-    private final List<User> users;
-
-    public UserService() {
-        users = new ArrayList<>();
-
-        User user1 = new User(1, "Tanvir");
-        User user2 = new User(2, "Raeed");
-
-        users.add(user1);
-        users.add(user2);
+    private final UserRepository userRepository;
+    public UserService(UserRepository userRepository) {
+        this.userRepository = userRepository;
     }
 
     public List<User> getList() {
-        return users;
+        Iterable<User> users = userRepository.findAll();
+        List<User> userList = new ArrayList<>();
+        users.forEach(userList::add);
+        return userList;
     }
 
     public User getById(int id) {
-        for (User user: users) {
-            if(user.getId() == id) {
-                return user;
-            }
-        }
-
-        return null;
+        Optional<User> user = userRepository.findById(id);
+        return user.orElse(null);
     }
 
-    public void Add(User user) throws IllegalAccessException {
+    public void add(User user) throws IllegalAccessException {
         if(user == null) {
             throw new IllegalAccessException("The user cannot be null.");
         }
 
-        users.add(user);
+        userRepository.save(user);
     }
 
-    public void Update(int id, String name)
+    public void update(int id, String name, String email)
             throws IllegalAccessException {
-        for (User user: users) {
-            if(user.getId() == id) {
-                user.setName(name);
-                break;
-            }
+        Optional<User> userToBeUpdated = userRepository.findById(id);
+
+        if(userToBeUpdated.isEmpty()) {
+            return;
         }
+
+        userToBeUpdated.get().setName(name);
+        userToBeUpdated.get().setEmail(email);
+        userRepository.save(userToBeUpdated.get());
     }
 
-    public void Delete(int id) {
-        for (User user: users) {
-            if(user.getId() == id) {
-                users.remove(user);
-                break;
-            }
+    public void delete(int id) {
+        Optional<User> userToBeUpdated = userRepository.findById(id);
+
+        if(userToBeUpdated.isEmpty()) {
+            return;
         }
+
+        userRepository.delete(userToBeUpdated.get());
     }
 }
