@@ -1,7 +1,9 @@
-package com.example.springbootapi.controllers;
+package com.web.springbootapi.controllers;
 
-import com.example.springbootapi.models.User;
-import com.example.springbootapi.services.UserService;
+import com.core.application.services.UserService;
+import com.core.domain.entities.User;
+import com.web.springbootapi.models.CreateUserModel;
+import com.web.springbootapi.models.UpdateUserModel;
 import io.swagger.v3.oas.annotations.*;
 import io.swagger.v3.oas.annotations.responses.*;
 import org.springframework.http.HttpStatus;
@@ -44,15 +46,15 @@ public class UsersController {
             @ApiResponse(responseCode = "400", description = "Bad request - The provided values are not correct.")
     })
     @PostMapping("/users")
-    public ResponseEntity<?> create(@RequestBody User user)
+    public ResponseEntity<?> create(@RequestBody CreateUserModel user)
             throws Exception {
-        userService.add(user);
-        URI createdLocation = new URI(String.format("http://localhost:8080/users/%s", user.getId()));
+        userService.add(user.getName(), user.getEmail());
+        URI createdLocation = new URI(String.format("http://localhost:8080/users/%s", 1));
         return ResponseEntity.created(createdLocation).build();
     }
 
     @PutMapping("/users/{id}")
-    public ResponseEntity<?> update(@PathVariable int id, @RequestBody User user)
+    public ResponseEntity<?> update(@PathVariable int id, @RequestBody UpdateUserModel user)
             throws Exception {
         userService.update(id, user.getName(), user.getEmail());
         return ResponseEntity.ok().build();

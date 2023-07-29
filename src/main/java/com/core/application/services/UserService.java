@@ -1,7 +1,7 @@
-package com.example.springbootapi.services;
+package com.core.application.services;
 
-import com.example.springbootapi.models.User;
-import com.example.springbootapi.repositories.UserRepository;
+import com.core.domain.entities.User;
+import com.core.domain.repositories.UserRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -25,10 +25,14 @@ public class UserService {
         return user.orElse(null);
     }
 
-    public void add(User user) throws IllegalAccessException {
-        if(user == null) {
-            throw new IllegalAccessException("The user cannot be null.");
+    public void add(String name, String email) throws IllegalAccessException {
+        if(name == null || name.length() == 0) {
+            throw new IllegalAccessException("The name cannot be null.");
         }
+
+        User user = new User();
+        user.setName(name);
+        user.setEmail(email);
 
         userRepository.save(user);
     }
@@ -56,3 +60,4 @@ public class UserService {
         userRepository.delete(userToBeUpdated.get());
     }
 }
+

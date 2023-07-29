@@ -1,4 +1,4 @@
-package com.example.springbootapi.models;
+package com.core.domain.entities;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -46,3 +46,4 @@ public class User {
         this.email = email;
     }
 }
+

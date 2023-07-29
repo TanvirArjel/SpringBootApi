@@ -1,6 +1,6 @@
-package com.example.springbootapi.repositories;
+package com.core.domain.repositories;
 
-import com.example.springbootapi.models.User;
+import com.core.domain.entities.User;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Service;
 
